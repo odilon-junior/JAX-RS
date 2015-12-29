@@ -1,5 +1,6 @@
 package br.com.loja;
 
+import br.com.loja.resource.Servidor;
 import org.junit.After;
 import org.junit.Before;
 
