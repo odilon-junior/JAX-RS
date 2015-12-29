@@ -11,14 +11,23 @@ import java.net.URI;
  * Created by odilon on 28/12/15.
  */
 public class Servidor {
-    public static void main(String[] args) throws IOException {
 
-        ResourceConfig config = new ResourceConfig().packages("br.com.loja");
-        URI uri = URI.create("http://localhost:8080/");
-        HttpServer server = GrizzlyHttpServerFactory.createHttpServer(uri, config);
-        System.out.println("Servidor rodando");
-        System.in.read();
-        server.stop();
+    private String packages;
+    private String uri;
+    private HttpServer server;
+
+    public Servidor(String uri, String packages) {
+        this.packages = packages;
+        this.uri = uri;
     }
 
+    public void inicializar() {
+        ResourceConfig config = new ResourceConfig().packages("br.com.loja");
+        URI uri = URI.create("http://localhost:8080/");
+        server = GrizzlyHttpServerFactory.createHttpServer(uri, config);
+    }
+
+    public void stop() {
+        server.stop();
+    }
 }
