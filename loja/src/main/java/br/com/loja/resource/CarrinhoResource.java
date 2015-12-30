@@ -2,9 +2,13 @@ package br.com.loja.resource;
 
 import br.com.loja.dao.CarrinhoDAO;
 import br.com.loja.modelo.Carrinho;
+import com.google.common.net.MediaType;
+import com.sun.deploy.net.HttpResponse;
 import com.thoughtworks.xstream.XStream;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
+import java.net.URI;
 
 /**
  * Created by odilon on 28/12/15.
@@ -21,11 +25,12 @@ public class CarrinhoResource {
     }
 
     @POST
+    @Consumes("application/xml")
     @Produces("application/xml")
-    public String salvar(String xml) {
+    public Response salvar(String xml) {
         Carrinho carrinho = (Carrinho) new XStream().fromXML(xml);
-        new CarrinhoDAO().adiciona(carrinho);
-        return "<>ok<>";
+        URI uri = URI.create("carrinhos/" + carrinho.getId());
+        return Response.created(uri).build();
 
     }
 }
