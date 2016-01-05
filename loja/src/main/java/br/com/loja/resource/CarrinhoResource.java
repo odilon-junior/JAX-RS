@@ -31,6 +31,14 @@ public class CarrinhoResource {
         Carrinho carrinho = (Carrinho) new XStream().fromXML(xml);
         URI uri = URI.create("carrinhos/" + carrinho.getId());
         return Response.created(uri).build();
-
     }
+
+    @DELETE
+    @Path("{id}/produtos/{produto}")
+    public Response deletar(@PathParam("id") long id, @PathParam("produto") long idProduto){
+        Carrinho carrinho = new CarrinhoDAO().busca(id);
+        carrinho.remove(idProduto);
+        return Response.ok().build();
+    }
+
 }
