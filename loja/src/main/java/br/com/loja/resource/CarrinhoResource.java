@@ -2,6 +2,7 @@ package br.com.loja.resource;
 
 import br.com.loja.dao.CarrinhoDAO;
 import br.com.loja.modelo.Carrinho;
+import br.com.loja.modelo.Produto;
 import com.google.common.net.MediaType;
 import com.sun.deploy.net.HttpResponse;
 import com.thoughtworks.xstream.XStream;
@@ -35,9 +36,21 @@ public class CarrinhoResource {
 
     @DELETE
     @Path("{id}/produtos/{produto}")
-    public Response deletar(@PathParam("id") long id, @PathParam("produto") long idProduto){
+    public Response deletar(@PathParam("id") long id, @PathParam("produto") long idProduto) {
         Carrinho carrinho = new CarrinhoDAO().busca(id);
         carrinho.remove(idProduto);
+        return Response.ok().build();
+    }
+
+    @PUT
+    @Path("{id}/produtos/{produtoId}")
+    public Response atualizarQuantidadeProdutosCarrinhos(@PathParam("id") long idCarrinho,
+                                                         @PathParam("produtoId") long produtoId,
+                                                         String produtoXML) {
+
+        Carrinho carrinho = new CarrinhoDAO().busca(idCarrinho);
+        Produto produto = (Produto) new XStream().fromXML(produtoXML);
+        carrinho.trocaQuantidade(produto);
         return Response.ok().build();
     }
 
